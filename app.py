@@ -35,7 +35,7 @@ def evaluate():
 
     # Phase 2: Generate random policy and evaluate
     policy = generate_random_policy(n, obstacle_set, end_state)
-    V      = policy_evaluation(n, policy, obstacle_set, end_state)
+    V, iterations = policy_evaluation(n, policy, obstacle_set, end_state)
 
     # Format output for the frontend
     policy_out = {}
@@ -64,6 +64,7 @@ def evaluate():
     return jsonify({
         'policy': policy_out,
         'values': value_out,
+        'iterations': iterations,
     })
 
 

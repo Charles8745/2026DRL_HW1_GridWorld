@@ -85,6 +85,7 @@ def policy_evaluation(n, policy, obstacle_set, end_state,
     """
     # Initialize all state values to 0
     V = {(r, c): 0.0 for r in range(n) for c in range(n)}
+    actual_iter = max_iter
 
     for iteration in range(max_iter):
         delta = 0.0
@@ -111,6 +112,7 @@ def policy_evaluation(n, policy, obstacle_set, end_state,
                 V[state] = new_v
 
         if delta < theta:
+            actual_iter = iteration + 1
             break
 
-    return V
+    return V, actual_iter
