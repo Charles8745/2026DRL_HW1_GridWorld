@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GridWorld — DRL HW1</title>
+  <meta name="description" content="Interactive GridWorld for Deep Reinforcement Learning HW1. Set start, end, and obstacles, then visualize policy and values via policy evaluation.">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="container">
+
+  <!-- ===== Header ===== -->
+  <div class="header">
+    <h1>🗺 GridWorld — DRL HW1</h1>
+    <p>互動式網格地圖 · 策略評估 · 價值函數視覺化</p>
+    <span class="badge">Phase 1 &amp; 2</span>
+  </div>
+
+  <!-- ===== Phase 1: Generate Grid ===== -->
+  <div class="card">
+    <div class="section-title">Phase 1：生成網格</div>
+
+    <div class="generate-row">
+      <label for="input-n">網格大小 n（5～9）：</label>
+      <input id="input-n" class="input-n" type="number" min="5" max="9" value="5" placeholder="5–9">
+      <button id="btn-generate" class="btn btn-blue">⚡ Generate Grid</button>
+    </div>
+  </div>
+
+  <!-- ===== Phase 1: Grid Config ===== -->
+  <div class="card" id="grid-section" style="display:none;">
+    <div class="section-title">點擊設定格子</div>
+
+    <!-- Mode Buttons -->
+    <div class="mode-panel">
+      <span style="font-size:0.88rem; color:var(--text-muted); font-weight:500;">模式：</span>
+      <button id="btn-mode-start"  class="btn btn-green mode-btn">🟢 設定起點</button>
+      <button id="btn-mode-end"    class="btn btn-red   mode-btn">🔴 設定終點</button>
+      <button id="btn-mode-obs"    class="btn btn-gray  mode-btn">⬛ 設定/移除障礙物</button>
+    </div>
+
+    <!-- Status Bar -->
+    <div class="status-bar">
+      <div class="status-item">
+        <div class="status-dot dot-start"></div>
+        <strong>起點：</strong>
+        <span id="status-start">未設定</span>
+      </div>
+      <div class="status-item">
+        <div class="status-dot dot-end"></div>
+        <strong>終點：</strong>
+        <span id="status-end">未設定</span>
+      </div>
+      <div class="status-item">
+        <div class="status-dot dot-obs"></div>
+        <strong>障礙物：</strong>
+        <span id="status-obs">0 / ?</span>
+        <span style="color:var(--text-muted);font-size:0.8rem;">（最多 n−2 個，可再次點擊移除）</span>
+      </div>
+    </div>
+
+    <!-- Alert -->
+    <div id="alert-box" class="alert alert-warn"></div>
+
+    <!-- Grid -->
+    <div id="grid-wrapper" style="margin-top:20px;"></div>
+
+    <!-- Evaluate Row -->
+    <div class="eval-row">
+      <button id="btn-evaluate" class="btn btn-blue" disabled>🔍 Evaluate Policy</button>
+      <button id="btn-reset"    class="btn btn-outline">↺ 重置</button>
+      <span class="hint-text">需先設定起點和終點才能計算</span>
+    </div>
+  </div>
+
+  <!-- ===== Phase 2: Results ===== -->
+  <div class="card" id="results-section">
+    <div class="section-title">Phase 2：策略評估結果</div>
+    <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:16px;">
+      以均勻隨機策略（每格 1~4 個動作）進行迭代策略評估，收斂閾值 θ=1×10⁻⁶，折扣因子 γ=0.9，每步報酬 R=−1。
+    </p>
+
+    <div class="matrix-row">
+      <!-- Value Matrix -->
+      <div class="matrix-container">
+        <div class="matrix-title">📊 Value Matrix — V(s)</div>
+        <div id="value-matrix"></div>
+      </div>
+
+      <!-- Policy Matrix -->
+      <div class="matrix-container">
+        <div class="matrix-title">📋 Policy Matrix — π(s)</div>
+        <div id="policy-matrix"></div>
+      </div>
+    </div>
+
+    <!-- Legend -->
+    <div class="legend" style="margin-top:20px;">
+      <div class="legend-item"><div class="legend-box" style="background:#38a169;"></div> 起點</div>
+      <div class="legend-item"><div class="legend-box" style="background:#e53e3e;"></div> 終點 (★)</div>
+      <div class="legend-item"><div class="legend-box" style="background:#718096;"></div> 障礙物</div>
+      <div class="legend-item"><div class="legend-box" style="background:#c6f6d5; border:1px solid #d1d9e6;"></div> 高價值</div>
+      <div class="legend-item"><div class="legend-box" style="background:#ebf8ff; border:1px solid #d1d9e6;"></div> 中價值</div>
+      <div class="legend-item"><div class="legend-box" style="background:#fff5f5; border:1px solid #d1d9e6;"></div> 低價值</div>
+    </div>
+
+    <!-- Re-evaluate note -->
+    <div style="text-align:center; margin-top:16px;">
+      <button id="btn-reeval" class="btn btn-outline" onclick="document.getElementById('btn-evaluate').click()">
+        🔄 重新隨機生成策略
+      </button>
+    </div>
+  </div>
+
+  <div class="footer">DRL HW1 · GridWorld · 2026</div>
+
+</div>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
