@@ -260,6 +260,52 @@ function renderResults(policy, values, iterations) {
     return 'val-low';
   }
 
+  // ---------- Compass builder ----------
+  // Renders a 3×3 directional mini-grid for the policy matrix.
+  // 'actions' is an array like ['up','left'] from the backend.
+  function buildCompassDiv(actions, isStart) {
+    const actionSet = new Set(Array.isArray(actions) ? actions : []);
+
+    //  Layout: [ NW | N  | NE ]
+    //          [ W  | ·  | E  ]
+    //          [ SW | S  | SE ]
+    const layout = [
+      [null, 'up', null],
+      ['left', null, 'right'],
+      [null, 'down', null],
+    ];
+    const arrows = { up: '↑', down: '↓', left: '←', right: '→' };
+
+    const compass = document.createElement('div');
+    compass.className = 'arrow-compass';
+
+    for (let gr = 0; gr < 3; gr++) {
+      for (let gc = 0; gc < 3; gc++) {
+        const cell = document.createElement('div');
+        const action = layout[gr][gc];
+
+        if (action === null) {
+          // corner or center
+          if (gr === 1 && gc === 1) {
+            cell.className = 'compass-cell center-dot';
+            cell.textContent = '·';
+          } else {
+            cell.className = 'compass-cell inactive';
+            cell.textContent = ' ';
+          }
+        } else if (actionSet.has(action)) {
+          cell.className = 'compass-cell';
+          cell.textContent = arrows[action];
+        } else {
+          cell.className = 'compass-cell inactive';
+          cell.textContent = arrows[action]; // present but invisible
+        }
+        compass.appendChild(cell);
+      }
+    }
+    return compass;
+  }
+
   function buildMatrix(type) {
     const table = document.createElement('table');
     table.className = 'result-grid';
@@ -314,7 +360,8 @@ function renderResults(policy, values, iterations) {
           if (type === 'value') {
             td.innerHTML = `<span style="font-size:${fontSize}">${v !== null ? parseFloat(v).toFixed(2) : ''}</span>`;
           } else {
-            td.innerHTML = `<span style="font-size:${arrowSize}">${p}</span>`;
+            // compass for start cell
+            td.appendChild(buildCompassDiv(p, true));
           }
         } else {
           if (type === 'value') {
@@ -323,8 +370,7 @@ function renderResults(policy, values, iterations) {
             td.textContent = v !== null ? parseFloat(v).toFixed(2) : '';
           } else {
             td.className = 'r-arrow';
-            td.style.fontSize = arrowSize;
-            td.textContent = p || '';
+            td.appendChild(buildCompassDiv(p, false));
           }
         }
 

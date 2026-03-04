@@ -420,6 +420,8 @@ body {
   text-align: center;
   vertical-align: middle;
   font-size: 0.82rem;
+  padding: 0;
+  overflow: hidden;
 }
 
 .result-grid td.r-obs {
@@ -446,9 +448,52 @@ body {
 }
 
 .result-grid td.r-arrow {
-  font-size: 1.15rem;
-  letter-spacing: 1px;
+  padding: 0;
+}
+
+/* ---------- Arrow Compass (Policy Matrix) ---------- */
+.arrow-compass {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+}
+
+.compass-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  font-weight: 700;
+  line-height: 1;
   color: #2d3748;
+  user-select: none;
+}
+
+.compass-cell.inactive {
+  /* slot is empty — keep space, hide text */
+  color: transparent;
+}
+
+.compass-cell.center-dot {
+  font-size: 0.42rem;
+  color: #cbd5e0;
+}
+
+/* start cell compass: white arrows */
+.r-start .compass-cell {
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.r-start .compass-cell.center-dot {
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.r-start .compass-cell.inactive {
+  color: transparent;
 }
 
 .result-grid td.coord-cell {

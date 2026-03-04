@@ -3,7 +3,7 @@ app.py - Flask main application for HW1 GridWorld
 """
 
 from flask import Flask, render_template, request, jsonify
-from gridworld import generate_random_policy, policy_evaluation, ACTION_ARROWS
+from gridworld import generate_random_policy, policy_evaluation
 
 app = Flask(__name__)
 
@@ -53,12 +53,10 @@ def evaluate():
                 policy_out[key] = 'goal'
                 value_out[key]  = 0.0
             elif state == start_state:
-                arrows = ''.join(ACTION_ARROWS[a] for a in policy[state])
-                policy_out[key] = arrows
+                policy_out[key] = policy[state]   # list of action strings
                 value_out[key]  = round(V[state], 2)
             else:
-                arrows = ''.join(ACTION_ARROWS[a] for a in policy[state])
-                policy_out[key] = arrows
+                policy_out[key] = policy[state]   # list of action strings
                 value_out[key]  = round(V[state], 2)
 
     return jsonify({
