@@ -849,3 +849,215 @@ body {
     gap: 12px;
   }
 }
+
+/* ======================================================
+   NEW UX POLISH — added in v2 UX pass
+   ====================================================== */
+
+/* ---------- Header workflow steps ---------- */
+.header-kicker {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(165, 180, 252, 0.65);
+  margin-bottom: 10px;
+}
+
+.header-steps {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+.step-pill {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.76rem;
+  font-weight: 600;
+  padding: 4px 14px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: var(--text-muted);
+  letter-spacing: 0.03em;
+  transition: all 0.2s;
+}
+
+.step-pill.active {
+  background: rgba(129, 140, 248, 0.20);
+  border-color: rgba(129, 140, 248, 0.40);
+  color: #a5b4fc;
+}
+
+.step-arrow {
+  color: var(--text-dim);
+  font-size: 0.75rem;
+  flex-shrink: 0;
+}
+
+/* ---------- Section step number ---------- */
+.section-title .step-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6366f1, #818cf8);
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #fff;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.45);
+}
+
+/* ---------- Card hint text ---------- */
+.card-hint {
+  font-size: 0.8rem;
+  color: var(--text-dim);
+  margin-top: 10px;
+  padding-left: 2px;
+}
+
+/* ---------- Mode button active state (overhaul) ---------- */
+/* Remove the ::after yellow dot, use a stronger visual approach */
+.mode-btn.active-mode::after {
+  display: none;
+}
+
+.mode-btn.active-mode {
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.55) !important;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.12),
+    0 6px 20px rgba(0, 0, 0, 0.5) !important;
+  filter: brightness(1.15);
+}
+
+/* ---------- Mode hint label ---------- */
+.mode-hint-label {
+  font-size: 0.8rem;
+  color: var(--text-dim);
+  font-style: italic;
+  margin-left: 4px;
+}
+
+/* ---------- Status sub text ---------- */
+.status-sub {
+  font-size: 0.78rem;
+  color: var(--text-dim);
+}
+
+/* ---------- Evaluate button (prominent primary CTA) ---------- */
+.btn-eval {
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+  color: #fff;
+  font-size: 0.95rem;
+  padding: 12px 28px;
+  box-shadow: 0 4px 20px rgba(124, 58, 237, 0.45);
+  border-radius: 12px;
+  letter-spacing: 0.02em;
+}
+
+.btn-eval:hover:not(:disabled) {
+  background: linear-gradient(135deg, #4338ca, #6d28d9);
+  box-shadow: 0 6px 28px rgba(124, 58, 237, 0.62);
+}
+
+.btn-eval:disabled {
+  opacity: 0.28;
+}
+
+/* ---------- Matrix divider ---------- */
+.matrix-divider {
+  width: 1px;
+  background: rgba(255, 255, 255, 0.08);
+  align-self: stretch;
+  flex-shrink: 0;
+}
+
+@media (max-width: 760px) {
+  .matrix-divider {
+    display: none;
+  }
+}
+
+/* ---------- Convergence bar ---------- */
+.convergence-bar {
+  background: rgba(16, 185, 129, 0.10);
+  border: 1px solid rgba(16, 185, 129, 0.28);
+  border-radius: 10px;
+  padding: 10px 18px;
+  font-size: 0.84rem;
+  color: #6ee7b7;
+  margin-bottom: 20px;
+  font-family: 'Inter', sans-serif;
+}
+
+/* ---------- Matrix title icons ---------- */
+.matrix-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 800;
+  font-size: 0.88rem;
+  margin-right: 6px;
+  flex-shrink: 0;
+}
+
+.value-icon {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.35), rgba(16, 185, 129, 0.15));
+  border: 1px solid rgba(16, 185, 129, 0.45);
+  color: #6ee7b7;
+}
+
+.policy-icon {
+  background: linear-gradient(135deg, rgba(129, 140, 248, 0.35), rgba(129, 140, 248, 0.15));
+  border: 1px solid rgba(129, 140, 248, 0.45);
+  color: #a5b4fc;
+}
+
+.matrix-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ---------- Legend obs box ---------- */
+.obs-legend-box {
+  background: repeating-linear-gradient(45deg,
+      rgba(100, 116, 139, 0.85) 0px, rgba(100, 116, 139, 0.85) 3px,
+      rgba(15, 23, 42, 0.90) 3px, rgba(15, 23, 42, 0.90) 7px);
+  border: 1px solid rgba(100, 116, 139, 0.5);
+}
+
+/* ---------- Re-evaluate button ---------- */
+.btn-reeval {
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(165, 180, 252, 0.85);
+  border: 1px solid rgba(129, 140, 248, 0.28);
+  padding: 10px 24px;
+  border-radius: 10px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.btn-reeval:hover {
+  background: rgba(129, 140, 248, 0.12);
+  border-color: rgba(129, 140, 248, 0.45);
+  color: #c7d2fe;
+}
+
+/* ---------- Results card accent ---------- */
+.card-results {
+  border-color: rgba(129, 140, 248, 0.22);
+  background: rgba(129, 140, 248, 0.04);
+}

@@ -26,6 +26,7 @@ const statusObs = document.getElementById('status-obs');
 const btnEval = document.getElementById('btn-evaluate');
 const btnReset = document.getElementById('btn-reset');
 const alertBox = document.getElementById('alert-box');
+const hintText = document.getElementById('hint-text');
 
 // ---------- Generate Grid ----------
 btnGenerate.addEventListener('click', () => {
@@ -54,8 +55,7 @@ function buildGrid() {
     for (let c = 0; c < n; c++) {
       const td = document.createElement('td');
       td.id = `cell-${r}-${c}`;
-      const cellNum = r * n + c + 1;
-      td.innerHTML = `<span class="cell-label">${cellNum}</span>`;
+      td.innerHTML = `<span class="cell-label">${r},${c}</span>`;
       td.addEventListener('click', () => handleCellClick(r, c));
       tr.appendChild(td);
     }
@@ -176,6 +176,7 @@ function updateStatus() {
 
   const canEval = startCell && endCell;
   btnEval.disabled = !canEval;
+  if (hintText) hintText.style.display = canEval ? 'none' : 'inline';
 }
 
 // ---------- Cell Class Helper ----------
