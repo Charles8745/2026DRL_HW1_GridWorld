@@ -4,20 +4,28 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GridWorld — DRL HW1</title>
+  <title>GridWorld v2 — DRL HW1</title>
   <meta name="description"
-    content="Interactive GridWorld for Deep Reinforcement Learning HW1. Set start, end, and obstacles, then visualize policy and values via policy evaluation.">
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}?v=4">
+    content="Interactive GridWorld for Deep Reinforcement Learning HW1. Glassmorphism UI with policy evaluation.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}?v=5">
 </head>
 
 <body>
+
+  <!-- ===== Floating Orbs ===== -->
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+
   <div class="container">
 
     <!-- ===== Header ===== -->
-    <div class="header">
+    <div class="card header">
       <h1>🗺 GridWorld — DRL HW1</h1>
-      <p>互動式網格地圖 · 策略評估 · 價值函數視覺化</p>
-      <span class="badge">Phase 1 &amp; 2</span>
+      <p>互動式網格地圖 &nbsp;·&nbsp; 策略評估 &nbsp;·&nbsp; 價值函數視覺化</p>
+      <span class="badge">✦ Phase 1 &amp; 2 &nbsp;·&nbsp; v2</span>
     </div>
 
     <!-- ===== Phase 1: Generate Grid ===== -->
@@ -86,10 +94,15 @@
 
       <!-- Convergence Stats -->
       <div id="convergence-stats" style="
-      background:#f0fff4; border:1px solid #9ae6b4; border-radius:8px;
-      padding:9px 16px; font-size:0.85rem; color:#276749;
-      margin-bottom:18px; display:none;
-    "></div>
+        background: rgba(16, 185, 129, 0.12);
+        border: 1px solid rgba(16, 185, 129, 0.32);
+        border-radius: 10px;
+        padding: 9px 16px;
+        font-size: 0.84rem;
+        color: #6ee7b7;
+        margin-bottom: 18px;
+        display: none;
+      "></div>
 
       <div class="matrix-row">
         <!-- Value Matrix -->
@@ -139,7 +152,7 @@
 
   </div>
 
-  <script src="{{ url_for('static', filename='script.js') }}?v=4"></script>
+  <script src="{{ url_for('static', filename='script.js') }}?v=5"></script>
 </body>
 
 </html>
