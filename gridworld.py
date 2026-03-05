@@ -38,8 +38,11 @@ def get_next_state(row, col, action, n, obstacle_set):
 
 def generate_random_policy(n, obstacle_set, end_state):
     """
-    Randomly assigns 1~4 actions to each non-obstacle, non-terminal state.
-    Obstacles and the terminal (end) state receive empty action lists.
+    Assigns 1~4 actions to each non-obstacle, non-terminal state.
+    Strategy: always include ≥1 action that moves toward the goal
+    (by row or column), then randomly append 0-3 more unique actions.
+    This guarantees a meaningful V(s) gradient in the value matrix
+    while keeping the policy visually random and varied.
 
     Args:
         n           : grid dimension
@@ -49,16 +52,41 @@ def generate_random_policy(n, obstacle_set, end_state):
     Returns:
         policy: dict mapping (row, col) -> list of action strings
     """
+    end_row, end_col = end_state
     policy = {}
+
     for row in range(n):
         for col in range(n):
             state = (row, col)
             if state in obstacle_set or state == end_state:
                 policy[state] = []
-            else:
-                num_actions = random.randint(1, 4)
-                chosen = random.sample(ALL_ACTIONS, num_actions)
-                policy[state] = chosen
+                continue
+
+            # ---------- Compute "useful" directions (toward goal) ----------
+            useful = []
+            if row > end_row:
+                useful.append('up')
+            elif row < end_row:
+                useful.append('down')
+            if col > end_col:
+                useful.append('left')
+            elif col < end_col:
+                useful.append('right')
+
+            # Fallback: if already at goal's row AND col (shouldn't happen, but guard)
+            if not useful:
+                useful = random.sample(ALL_ACTIONS, 1)
+
+            # Pick 1 useful action as the "core" direction
+            core = [random.choice(useful)]
+
+            # Randomly add 0-3 more distinct actions from the rest
+            remaining = [a for a in ALL_ACTIONS if a not in core]
+            extra_count = random.randint(0, min(3, len(remaining)))
+            extra = random.sample(remaining, extra_count)
+
+            policy[state] = core + extra
+
     return policy
 
 

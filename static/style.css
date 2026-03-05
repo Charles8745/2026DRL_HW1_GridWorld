@@ -554,9 +554,13 @@ body {
 }
 
 .grid-table td.obs {
-  background: rgba(51, 65, 85, 0.70) !important;
-  border-color: rgba(100, 116, 139, 0.40) !important;
-  color: rgba(255, 255, 255, 0.20) !important;
+  background: repeating-linear-gradient(45deg,
+      rgba(100, 116, 139, 0.85) 0px,
+      rgba(100, 116, 139, 0.85) 5px,
+      rgba(15, 23, 42, 0.90) 5px,
+      rgba(15, 23, 42, 0.90) 13px) !important;
+  border-color: rgba(148, 163, 184, 0.50) !important;
+  color: rgba(255, 255, 255, 0.45) !important;
   cursor: default;
 }
 
@@ -662,8 +666,12 @@ body {
 }
 
 .result-grid td.r-obs {
-  background: rgba(51, 65, 85, 0.70);
-  border-color: rgba(71, 85, 105, 0.30);
+  background: repeating-linear-gradient(45deg,
+      rgba(100, 116, 139, 0.85) 0px,
+      rgba(100, 116, 139, 0.85) 4px,
+      rgba(15, 23, 42, 0.90) 4px,
+      rgba(15, 23, 42, 0.90) 11px);
+  border-color: rgba(100, 116, 139, 0.45);
 }
 
 .result-grid td.r-start {
