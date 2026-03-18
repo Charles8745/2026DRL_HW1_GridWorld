@@ -9,6 +9,8 @@
 
 **互動式 GridWorld · Value Iteration · 最佳路徑追蹤與視覺化**
 
+**🔗 Live Demo URL:** [https://two026drl-dic2.onrender.com](https://two026drl-dic2.onrender.com)
+
 </div>
 
 ---
