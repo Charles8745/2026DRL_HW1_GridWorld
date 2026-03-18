@@ -88,7 +88,7 @@ def value_iteration(n, obstacle_set, end_state, gamma=0.9, theta=1e-6, max_iter=
         if delta < theta:
             break
 
-    # Extract optimal policy
+    # Extract optimal policy (Deterministic)
     policy = {}
     for row in range(n):
         for col in range(n):
@@ -98,19 +98,16 @@ def value_iteration(n, obstacle_set, end_state, gamma=0.9, theta=1e-6, max_iter=
                 continue
 
             max_v = float('-inf')
-            best_actions = []
+            best_action = None
 
             for action in ALL_ACTIONS:
                 next_state = get_next_state(row, col, action, n, obstacle_set)
                 v_a = -1.0 + gamma * V[next_state]
                 
-                # Use a tiny tolerance for floating point comparisons to find ties
                 if v_a > max_v + 1e-9:
                     max_v = v_a
-                    best_actions = [action]
-                elif v_a >= max_v - 1e-9:
-                    best_actions.append(action)
+                    best_action = action
 
-            policy[state] = best_actions
+            policy[state] = [best_action] if best_action else []
 
     return V, policy, actual_iter
