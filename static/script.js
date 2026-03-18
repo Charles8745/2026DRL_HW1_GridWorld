@@ -438,31 +438,3 @@ function renderResults(policy, values, iterations) {
 // ---------- Init ----------
 // Set initial active mode button
 modeBtns.start.classList.add('active-mode');
-
-// Auto-initialize DIC2 state on load
-window.addEventListener('DOMContentLoaded', () => {
-  inputN.value = 5;
-  n = 5;
-  resetState();
-  buildGrid();
-
-  // Set specific state
-  startCell = { row: 0, col: 0 };
-  endCell = { row: 4, col: 4 };
-
-  const obsKeys = ['1,1', '2,2', '3,3'];
-  obsKeys.forEach(k => obstacles.add(k));
-
-  // Update UI classes
-  setCellClass(0, 0, 'start');
-  setCellClass(4, 4, 'end');
-  setCellClass(1, 1, 'obs');
-  setCellClass(2, 2, 'obs');
-  setCellClass(3, 3, 'obs');
-
-  updateStatus();
-
-  gridSection.style.display = 'block';
-  resultsSection.style.display = 'none';
-  hideAlert();
-});

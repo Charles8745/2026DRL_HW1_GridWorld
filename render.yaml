@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: drl-dic2
+    name: drl-hw1-gridworld
     runtime: python
     buildCommand: "pip install -r requirements.txt"
     startCommand: "gunicorn app:app"

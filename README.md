@@ -1,78 +1,78 @@
-# 🗺 GridWorld — Value Iteration (DIC2)
+# 🗺 GridWorld (Value Iteration) — Deep Reinforcement Learning HW1
+
+> **🚀 Live Demo (線上展示)：[https://two026drl-hw1-gridworld.onrender.com](https://two026drl-hw1-gridworld.onrender.com)**  
+> ⚠️ *(Render 免費方案冷啟動約需 30～60 秒，若網頁載入較慢請稍候)*
 
 <div align="center">
 
-[![Live Demo](https://img.shields.io/badge/🌐_Live_Demo-Render.com-5865F2?style=for-the-badge)](https://two026drl-dic2.onrender.com)
-[![GitHub](https://img.shields.io/badge/GitHub-Charles8745-181717?style=for-the-badge&logo=github)](https://github.com/Charles8745/2026DRL_DIC2)
+[![GitHub](https://img.shields.io/badge/GitHub-Charles8745-181717?style=for-the-badge&logo=github)](https://github.com/Charles8745/2026DRL_HW1_GridWorld)
 [![Python](https://img.shields.io/badge/Python-3.11-3776AB?style=for-the-badge&logo=python)](https://python.org)
 [![Flask](https://img.shields.io/badge/Flask-2.x-000000?style=for-the-badge&logo=flask)](https://flask.palletsprojects.com)
 
-**互動式 GridWorld · Value Iteration · 最佳路徑追蹤與視覺化**
-
-**🔗 Live Demo URL:** [https://two026drl-dic2.onrender.com](https://two026drl-dic2.onrender.com)
+**互動式 GridWorld 網格地圖 · Value Iteration 最佳解搜尋 · 價值函數視覺化**
 
 </div>
 
 ---
 
-## 🎯 作業說明 (DIC2)
+## 🎯 專案說明
 
-本專案實作《Deep Reinforcement Learning》課堂作業 DIC2 的要求：
+本專案實作《Deep Reinforcement Learning》課程 HW1，並進階升級至 **Value Iteration** 以求得最佳策略：
 
-1. **5x5 GridWorld**
-2. **Start cell** at `(0,0)`, **Ending cell** at `(4,4)`
-3. **Block/Obstacle cells** at `(1,1)`, `(2,2)`, `(3,3)`
-4. **Use Value Iteration** to find the path and **show arrows**
+| 核心模組 | 內容 |
+|-------|------|
+| **Interactive Grid** | 網頁互動式 n×n GridWorld 建立（自由設定大小、起點、終點、障礙物） |
+| **Value Iteration** | 套用 Bellman Optimality Equation，迭代收斂求解最佳 V(s) 與確定性策略 $\pi(s)$ |
 
-進入網頁後，已經預設載入上述 1~3 項配置。點擊 `▶ Run Value Iteration` 即可完成第 4 項要求。
-
----
-
-## 📸 介面與結果
-
-> Value Iteration 執行後，V(s) 矩陣會顯示各狀態收斂後的最大價值，而 Policy π(s) 矩陣會顯示最佳動作方向（箭頭），並**以紫色高亮標示從起點 (0,0) 到終點 (4,4) 的最佳路徑**。
+*(若欲查看本專案從 Policy Evaluation 升級至 Value Iteration 的**完整開發過程與對話紀錄**，請參閱 [`DEVLOG.md`](DEVLOG.md))*
 
 ---
 
-## 🧮 演算法說明：Value Iteration
+## ✨ 功能特色
 
-依照 Bellman Optimality Equation 進行迭代：
+### Phase 1：互動式網格地圖
 
-```
-V(s) = max_a [R + γ * V(s')]
-```
+| 功能 | 說明 |
+|------|------|
+| 網格生成 | 輸入 n（5～9），動態生成 n×n 互動網格 |
+| 座標顯示 | 每格顯示 `row,col` 座標（0 起始） |
+| 模式切換 | 🟢 起點 / 🔴 終點 / ⬛ 障礙物 三種模式按鈕 |
+| 起點設定 | 點擊格子 → 綠色，再次點擊其他格可移動 |
+| 終點設定 | 點擊格子 → 紅色，再次點擊其他格可移動 |
+| 障礙物設定 | 最多 n−2 個；條紋樣式顯示；再次點擊已設格子可移除 |
+| 狀態列 | 即時顯示起點座標、終點座標、障礙物數量 |
+| 自適應提示 | 起終點皆設定後按鈕解鎖，提示文字自動隱藏 |
+
+### Phase 2：Value Iteration 策略評估
+
+| 功能 | 說明 |
+|------|------|
+| Value Iteration | $V(s) \leftarrow \max_a [R + \gamma V(s')]$，找出全域最佳價值函數 |
+| 確定性策略提取 | 收斂後套用 Greedy Policy 提取單一最佳方向以形成明確路徑 |
+| 最佳路徑追蹤 | $\pi(s)$ 矩陣會只顯示最佳箭頭，並**以紫色發光高亮出從起點至終點的 Optimal Path** |
+| Value Matrix | 每格顯示 V(s) 數值，含三段色階（高/中/低） |
+| 羅盤圖示 | $\pi(s)$ 矩陣由 3×3 羅盤佈局顯示最佳路線方向 |
+
+---
+
+## 🧮 演算法參數
+
 - **γ（折扣因子）** = 0.9
 - **θ（收斂閾值）** = 1×10⁻⁶  
 - **R（每步報酬）** = −1（終點為 0）
-
-演算法收斂後，我們會透過貪婪策略（Greedy Policy）萃取出確定性最佳策略（Deterministic Policy）：
-```
-π(s) = argmax_a [R + γ * V(s')]
-```
-
----
-
-## 📝 開發紀錄與對話歷史
-
-> 完整開發過程、演算法修改細節與**本次作業的對話紀錄**請參閱 [`DEVLOG.md`](DEVLOG.md)（供作業評分與老師檢視）。
+- **環境規則**：若動作使 Agent 越界或撞入障礙物，則留在原地。障礙物格不參與價值計算。
 
 ---
 
 ## 🚀 本機執行
 
 ```bash
-# 安裝依賴
+# 安裝環境依賴
 pip install -r requirements.txt
 
-# 啟動伺服器
+# 啟動 Flask 應用伺服器
 python app.py
 
-# 開啟瀏覽器
+# 取出瀏覽器開啟
 open http://127.0.0.1:5000
 ```
-
----
-
-**後端：** Python 3.11 + Flask  
-**前端：** 原生 HTML / CSS / JavaScript（無框架）  
-**倉庫：** [https://github.com/Charles8745/2026DRL_DIC2.git](https://github.com/Charles8745/2026DRL_DIC2.git)

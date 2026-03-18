@@ -4,16 +4,7 @@
    Use a production WSGI server instead.
  * Debug mode: off
  * Running on http://127.0.0.1:5001/ (Press CTRL+C to quit)
-127.0.0.1 - - [18/Mar/2026 10:12:17] "GET / HTTP/1.1" 200 -
-127.0.0.1 - - [18/Mar/2026 10:12:17] "GET /static/script.js?v=7 HTTP/1.1" 200 -
-127.0.0.1 - - [18/Mar/2026 10:12:17] "GET /static/style.css?v=7 HTTP/1.1" 200 -
-127.0.0.1 - - [18/Mar/2026 10:12:17] "GET /favicon.ico HTTP/1.1" 404 -
-127.0.0.1 - - [18/Mar/2026 10:12:38] "POST /evaluate HTTP/1.1" 200 -
-127.0.0.1 - - [18/Mar/2026 10:14:42] "POST /evaluate HTTP/1.1" 200 -
-127.0.0.1 - - [18/Mar/2026 10:14:44] "POST /evaluate HTTP/1.1" 200 -
-127.0.0.1 - - [18/Mar/2026 10:14:46] "POST /evaluate HTTP/1.1" 200 -
-127.0.0.1 - - [18/Mar/2026 10:14:46] "POST /evaluate HTTP/1.1" 200 -
-127.0.0.1 - - [18/Mar/2026 10:14:48] "POST /evaluate HTTP/1.1" 200 -
-127.0.0.1 - - [18/Mar/2026 10:15:00] "POST /evaluate HTTP/1.1" 200 -
-127.0.0.1 - - [18/Mar/2026 10:15:02] "POST /evaluate HTTP/1.1" 200 -
-127.0.0.1 - - [18/Mar/2026 10:16:56] "POST /evaluate HTTP/1.1" 200 -
+127.0.0.1 - - [18/Mar/2026 10:30:33] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [18/Mar/2026 10:30:46] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [18/Mar/2026 10:30:46] "GET /static/script.js?v=8 HTTP/1.1" 200 -
+127.0.0.1 - - [18/Mar/2026 10:31:02] "POST /evaluate HTTP/1.1" 200 -
