@@ -1,7 +1,7 @@
 # 🗺 GridWorld (Value Iteration) — Deep Reinforcement Learning HW1
 
 > **🚀 Live Demo (線上展示)：[https://2026drlhw1gridworldversal.vercel.app/](https://2026drlhw1gridworldversal.vercel.app/)**  
-> **📝 開發紀錄與對話歷史：[DEVLOG.md](DEVLOG.md)** （供作業評分參考）
+> **📝 AI 對話紀錄與開發歷程：[AI_CONVERSATION.md](AI_CONVERSATION.md)** （供老師檢閱與評分參考）
 
 <div align="center">
 
@@ -24,7 +24,7 @@
 | **Interactive Grid** | 網頁互動式 n×n GridWorld 建立（自由設定大小、起點、終點、障礙物） |
 | **Value Iteration** | 套用 Bellman Optimality Equation，迭代收斂求解最佳 V(s) 與確定性策略 $\pi(s)$ |
 
-*(若欲查看本專案從 Policy Evaluation 升級至 Value Iteration 的**完整開發過程與對話紀錄**，請參閱 [`DEVLOG.md`](DEVLOG.md))*
+*(若欲查看本專案從 Policy Evaluation 到 Value Iteration 的**完整 AI 輔助對話紀錄與問題發現過程**，請參閱 [`AI_CONVERSATION.md`](AI_CONVERSATION.md))*
 
 ---
 
