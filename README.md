@@ -2,6 +2,7 @@
 
 <div align="center">
 
+[![Live Demo](https://img.shields.io/badge/🌐_Live_Demo-Render.com-5865F2?style=for-the-badge)](https://drl-dic2.onrender.com)
 [![GitHub](https://img.shields.io/badge/GitHub-Charles8745-181717?style=for-the-badge&logo=github)](https://github.com/Charles8745/2026DRL_DIC2)
 [![Python](https://img.shields.io/badge/Python-3.11-3776AB?style=for-the-badge&logo=python)](https://python.org)
 [![Flask](https://img.shields.io/badge/Flask-2.x-000000?style=for-the-badge&logo=flask)](https://flask.palletsprojects.com)
@@ -46,6 +47,12 @@ V(s) = max_a [R + γ * V(s')]
 ```
 π(s) = argmax_a [R + γ * V(s')]
 ```
+
+---
+
+## 📝 開發紀錄與對話歷史
+
+> 完整開發過程、演算法修改細節與**本次作業的對話紀錄**請參閱 [`DEVLOG.md`](DEVLOG.md)（供作業評分與老師檢視）。
 
 ---
 
