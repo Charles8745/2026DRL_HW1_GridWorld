@@ -240,21 +240,33 @@ btnEval.addEventListener('click', async () => {
 // ---------- Render Results ----------
 function renderResults(policy, values, iterations) {
 
-  // --- Trace Optimal Path ---
+  // --- Trace ALL Optimal Paths (BFS) ---
   const optimalPath = new Set();
   if (startCell && endCell) {
-    let cr = startCell.row;
-    let cc = startCell.col;
-    for (let step = 0; step < n * n; step++) {
-      optimalPath.add(`${cr},${cc}`);
-      if (cr === endCell.row && cc === endCell.col) break;
-      const acts = policy[`${cr},${cc}`];
-      if (!acts || acts.length === 0 || acts === 'obstacle' || acts === 'goal') break;
-      const act = acts[0]; // greedily follow best action
-      if (act === 'up') cr--;
-      else if (act === 'down') cr++;
-      else if (act === 'left') cc--;
-      else if (act === 'right') cc++;
+    const queue = [`${startCell.row},${startCell.col}`];
+    // prevent infinite loop
+    let count = 0;
+
+    while (queue.length > 0 && count < n * n * 5) {
+      count++;
+      const currKey = queue.shift();
+      if (optimalPath.has(currKey)) continue; // Already visited
+      optimalPath.add(currKey);
+
+      const [cr, cc] = currKey.split(',').map(Number);
+      if (cr === endCell.row && cc === endCell.col) continue; // Reached goal
+
+      const acts = policy[currKey];
+      if (!acts || !Array.isArray(acts) || acts.length === 0) continue;
+
+      for (const act of acts) {
+        let nr = cr, nc = cc;
+        if (act === 'up') nr--;
+        else if (act === 'down') nr++;
+        else if (act === 'left') nc--;
+        else if (act === 'right') nc++;
+        queue.push(`${nr},${nc}`);
+      }
     }
   }
 
