@@ -240,6 +240,24 @@ btnEval.addEventListener('click', async () => {
 // ---------- Render Results ----------
 function renderResults(policy, values, iterations) {
 
+  // --- Trace Optimal Path ---
+  const optimalPath = new Set();
+  if (startCell && endCell) {
+    let cr = startCell.row;
+    let cc = startCell.col;
+    for (let step = 0; step < n * n; step++) {
+      optimalPath.add(`${cr},${cc}`);
+      if (cr === endCell.row && cc === endCell.col) break;
+      const acts = policy[`${cr},${cc}`];
+      if (!acts || acts.length === 0 || acts === 'obstacle' || acts === 'goal') break;
+      const act = acts[0]; // greedily follow best action
+      if (act === 'up') cr--;
+      else if (act === 'down') cr++;
+      else if (act === 'left') cc--;
+      else if (act === 'right') cc++;
+    }
+  }
+
   // Dynamic cell size based on grid size
   const cellSize = n <= 6 ? 62 : n <= 7 ? 54 : n <= 8 ? 48 : 44;
   const fontSize = n <= 6 ? '0.82rem' : n <= 7 ? '0.74rem' : '0.68rem';
@@ -354,6 +372,7 @@ function renderResults(policy, values, iterations) {
           if (type === 'value') {
             td.innerHTML = `<span style="font-size:${fontSize}">0.00</span>`;
           } else {
+            if (optimalPath.has(key)) td.classList.add('optimal-path');
             td.innerHTML = `<span style="font-size:1.1rem">★</span>`;
           }
         } else if (startCell && startCell.row === r && startCell.col === c) {
@@ -361,7 +380,7 @@ function renderResults(policy, values, iterations) {
           if (type === 'value') {
             td.innerHTML = `<span style="font-size:${fontSize}">${v !== null ? parseFloat(v).toFixed(2) : ''}</span>`;
           } else {
-            // compass for start cell
+            if (optimalPath.has(key)) td.classList.add('optimal-path');
             td.appendChild(buildCompassDiv(p, true));
           }
         } else {
@@ -371,6 +390,7 @@ function renderResults(policy, values, iterations) {
             td.textContent = v !== null ? parseFloat(v).toFixed(2) : '';
           } else {
             td.className = 'r-arrow';
+            if (optimalPath.has(key)) td.classList.add('optimal-path');
             td.appendChild(buildCompassDiv(p, false));
           }
         }
@@ -406,3 +426,31 @@ function renderResults(policy, values, iterations) {
 // ---------- Init ----------
 // Set initial active mode button
 modeBtns.start.classList.add('active-mode');
+
+// Auto-initialize DIC2 state on load
+window.addEventListener('DOMContentLoaded', () => {
+  inputN.value = 5;
+  n = 5;
+  resetState();
+  buildGrid();
+
+  // Set specific state
+  startCell = { row: 0, col: 0 };
+  endCell = { row: 4, col: 4 };
+
+  const obsKeys = ['1,1', '2,2', '3,3'];
+  obsKeys.forEach(k => obstacles.add(k));
+
+  // Update UI classes
+  setCellClass(0, 0, 'start');
+  setCellClass(4, 4, 'end');
+  setCellClass(1, 1, 'obs');
+  setCellClass(2, 2, 'obs');
+  setCellClass(3, 3, 'obs');
+
+  updateStatus();
+
+  gridSection.style.display = 'block';
+  resultsSection.style.display = 'none';
+  hideAlert();
+});

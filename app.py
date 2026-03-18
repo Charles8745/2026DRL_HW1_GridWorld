@@ -3,7 +3,7 @@ app.py - Flask main application for HW1 GridWorld
 """
 
 from flask import Flask, render_template, request, jsonify
-from gridworld import generate_random_policy, policy_evaluation
+from gridworld import value_iteration
 
 app = Flask(__name__)
 
@@ -33,9 +33,8 @@ def evaluate():
     end_state   = tuple(data['end'])
     obstacle_set = set(tuple(o) for o in data.get('obstacles', []))
 
-    # Phase 2: Generate random policy and evaluate
-    policy = generate_random_policy(n, obstacle_set, end_state)
-    V, iterations = policy_evaluation(n, policy, obstacle_set, end_state)
+    # Phase 2: Run Value Iteration
+    V, policy, iterations = value_iteration(n, obstacle_set, end_state)
 
     # Format output for the frontend
     policy_out = {}

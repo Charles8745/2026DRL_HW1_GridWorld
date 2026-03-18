@@ -36,72 +36,15 @@ def get_next_state(row, col, action, n, obstacle_set):
     return (row, col)  # Stay in place
 
 
-def generate_random_policy(n, obstacle_set, end_state):
+def value_iteration(n, obstacle_set, end_state, gamma=0.9, theta=1e-6, max_iter=10000):
     """
-    Assigns 1~4 actions to each non-obstacle, non-terminal state.
-    Strategy: always include ≥1 action that moves toward the goal
-    (by row or column), then randomly append 0-3 more unique actions.
-    This guarantees a meaningful V(s) gradient in the value matrix
-    while keeping the policy visually random and varied.
-
-    Args:
-        n           : grid dimension
-        obstacle_set: set of (row, col) tuples
-        end_state   : (row, col) tuple of the goal
-
-    Returns:
-        policy: dict mapping (row, col) -> list of action strings
-    """
-    end_row, end_col = end_state
-    policy = {}
-
-    for row in range(n):
-        for col in range(n):
-            state = (row, col)
-            if state in obstacle_set or state == end_state:
-                policy[state] = []
-                continue
-
-            # ---------- Compute "useful" directions (toward goal) ----------
-            useful = []
-            if row > end_row:
-                useful.append('up')
-            elif row < end_row:
-                useful.append('down')
-            if col > end_col:
-                useful.append('left')
-            elif col < end_col:
-                useful.append('right')
-
-            # Fallback: if already at goal's row AND col (shouldn't happen, but guard)
-            if not useful:
-                useful = random.sample(ALL_ACTIONS, 1)
-
-            # Pick 1 useful action as the "core" direction
-            core = [random.choice(useful)]
-
-            # Randomly add 0-3 more distinct actions from the rest
-            remaining = [a for a in ALL_ACTIONS if a not in core]
-            extra_count = random.randint(0, min(3, len(remaining)))
-            extra = random.sample(remaining, extra_count)
-
-            policy[state] = core + extra
-
-    return policy
-
-
-def policy_evaluation(n, policy, obstacle_set, end_state,
-                      gamma=0.9, theta=1e-6, max_iter=10000):
-    """
-    Iterative policy evaluation using the Bellman expectation equation:
-        V(s) = Σ_a π(a|s) * [R + γ * V(s')]
+    Value Iteration algorithm to find the optimal policy and value function.
+        V(s) = max_a [R + γ * V(s')]
     
     Reward: -1 per step, terminal state V = 0.
-    Uniform probability over chosen actions in policy.
 
     Args:
         n           : grid dimension
-        policy      : dict from generate_random_policy
         obstacle_set: set of (row, col) tuples
         end_state   : (row, col) tuple of the goal
         gamma       : discount factor (default 0.9)
@@ -110,10 +53,12 @@ def policy_evaluation(n, policy, obstacle_set, end_state,
 
     Returns:
         V: dict mapping (row, col) -> float value
+        policy: dict mapping (row, col) -> list of optimal action strings
+        iterations: actual number of iterations until convergence
     """
     # Initialize all state values to 0
     V = {(r, c): 0.0 for r in range(n) for c in range(n)}
-    actual_iter = max_iter
+    actual_iter = 0
 
     for iteration in range(max_iter):
         delta = 0.0
@@ -125,22 +70,47 @@ def policy_evaluation(n, policy, obstacle_set, end_state,
                 if state in obstacle_set or state == end_state:
                     continue
 
-                actions = policy.get(state, [])
-                if not actions:
-                    continue
+                old_v = V[state]
+                max_v = float('-inf')
 
-                # Uniform distribution over chosen actions
-                prob = 1.0 / len(actions)
-                new_v = 0.0
-                for action in actions:
+                # Calculate value for all possible actions
+                for action in ALL_ACTIONS:
                     next_state = get_next_state(row, col, action, n, obstacle_set)
-                    new_v += prob * (-1.0 + gamma * V[next_state])
+                    v_a = -1.0 + gamma * V[next_state]
+                    if v_a > max_v:
+                        max_v = v_a
 
-                delta = max(delta, abs(new_v - V[state]))
-                V[state] = new_v
-
+                V[state] = max_v
+                delta = max(delta, abs(old_v - max_v))
+                
+        actual_iter = iteration + 1
+        # Check convergence
         if delta < theta:
-            actual_iter = iteration + 1
             break
 
-    return V, actual_iter
+    # Extract optimal policy
+    policy = {}
+    for row in range(n):
+        for col in range(n):
+            state = (row, col)
+            if state in obstacle_set or state == end_state:
+                policy[state] = []
+                continue
+
+            max_v = float('-inf')
+            best_actions = []
+
+            for action in ALL_ACTIONS:
+                next_state = get_next_state(row, col, action, n, obstacle_set)
+                v_a = -1.0 + gamma * V[next_state]
+                
+                # Use a tiny tolerance for floating point comparisons to find ties
+                if v_a > max_v + 1e-9:
+                    max_v = v_a
+                    best_actions = [action]
+                elif v_a >= max_v - 1e-9:
+                    best_actions.append(action)
+
+            policy[state] = best_actions
+
+    return V, policy, actual_iter

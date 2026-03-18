@@ -25,13 +25,13 @@
     <div class="card header">
       <div class="header-kicker">Deep Reinforcement Learning · HW1</div>
       <h1>GridWorld</h1>
-      <p>設定網格地圖，生成隨機策略，迭代策略評估並視覺化 V(s)</p>
+      <p>設定網格地圖，執行 Value Iteration，並視覺化最佳策略與 V(s)</p>
       <div class="header-steps">
         <div class="step-pill">① 設定網格</div>
         <div class="step-arrow">→</div>
         <div class="step-pill">② 標記起終點</div>
         <div class="step-arrow">→</div>
-        <div class="step-pill">③ 策略評估</div>
+        <div class="step-pill">③ Value Iteration</div>
         <div class="step-arrow">→</div>
         <div class="step-pill active">④ 視覺化 V(s)</div>
       </div>
@@ -95,7 +95,7 @@
 
       <!-- Evaluate Row -->
       <div class="eval-row">
-        <button id="btn-evaluate" class="btn btn-eval" disabled>▶ Evaluate Policy</button>
+        <button id="btn-evaluate" class="btn btn-eval" disabled>▶ Run Value Iteration</button>
         <button id="btn-reset" class="btn btn-outline">↺ 重置</button>
         <span id="hint-text" class="hint-text">需先設定起點和終點</span>
       </div>
@@ -105,7 +105,7 @@
     <div class="card card-results" id="results-section">
       <div class="section-title">
         <span class="step-num">3</span>
-        策略評估結果
+        Value Iteration 結果
       </div>
 
       <!-- Convergence Stats -->
@@ -164,7 +164,7 @@
       <!-- Re-evaluate -->
       <div style="text-align:center; margin-top:20px;">
         <button id="btn-reeval" class="btn btn-reeval" onclick="document.getElementById('btn-evaluate').click()">
-          🔄 重新隨機生成策略
+          🔄 重新計算
         </button>
       </div>
     </div>
