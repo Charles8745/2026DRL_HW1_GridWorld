@@ -1,7 +1,6 @@
 # 🗺 GridWorld (Value Iteration) — Deep Reinforcement Learning HW1
 
-> **🚀 Live Demo (線上展示)：[https://two026drl-hw1-gridworld.onrender.com](https://two026drl-hw1-gridworld.onrender.com)**  
-> ⚠️ *(Render 免費方案冷啟動約需 30～60 秒，若網頁載入較慢請稍候)*
+> **🚀 Live Demo (線上展示)：[https://2026-drl-hw1-grid-world.vercel.app/](https://2026-drl-hw1-grid-world.vercel.app/)**  
 
 <div align="center">
 
