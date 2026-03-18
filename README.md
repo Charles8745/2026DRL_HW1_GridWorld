@@ -2,7 +2,7 @@
 
 <div align="center">
 
-[![Live Demo](https://img.shields.io/badge/🌐_Live_Demo-Render.com-5865F2?style=for-the-badge)](https://drl-dic2.onrender.com)
+[![Live Demo](https://img.shields.io/badge/🌐_Live_Demo-Render.com-5865F2?style=for-the-badge)](https://two026drl-dic2.onrender.com)
 [![GitHub](https://img.shields.io/badge/GitHub-Charles8745-181717?style=for-the-badge&logo=github)](https://github.com/Charles8745/2026DRL_DIC2)
 [![Python](https://img.shields.io/badge/Python-3.11-3776AB?style=for-the-badge&logo=python)](https://python.org)
 [![Flask](https://img.shields.io/badge/Flask-2.x-000000?style=for-the-badge&logo=flask)](https://flask.palletsprojects.com)
