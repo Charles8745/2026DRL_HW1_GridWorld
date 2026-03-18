@@ -1,8 +1,10 @@
 # 🗺 GridWorld — Deep Reinforcement Learning HW1
 
+> **🚀 Live Demo (線上展示)：[https://two026drl-hw1-gridworld.onrender.com](https://two026drl-hw1-gridworld.onrender.com)**  
+> ⚠️ *(Render 免費方案冷啟動約需 30～60 秒，若網頁載入較慢請稍候)*
+
 <div align="center">
 
-[![Live Demo](https://img.shields.io/badge/🌐_Live_Demo-Render.com-5865F2?style=for-the-badge)](https://two026drl-hw1-gridworld.onrender.com)
 [![GitHub](https://img.shields.io/badge/GitHub-Charles8745-181717?style=for-the-badge&logo=github)](https://github.com/Charles8745/2026DRL_HW1_GridWorld)
 [![Python](https://img.shields.io/badge/Python-3.11-3776AB?style=for-the-badge&logo=python)](https://python.org)
 [![Flask](https://img.shields.io/badge/Flask-2.x-000000?style=for-the-badge&logo=flask)](https://flask.palletsprojects.com)
