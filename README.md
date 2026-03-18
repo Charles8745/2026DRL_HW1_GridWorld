@@ -1,6 +1,7 @@
 # 🗺 GridWorld (Value Iteration) — Deep Reinforcement Learning HW1
 
-> **🚀 Live Demo (線上展示)：[https://2026-drl-hw1-grid-world.vercel.app/](https://2026-drl-hw1-grid-world.vercel.app/)**  
+> **🚀 Live Demo (線上展示)：[https://2026drlhw1gridworldversal.vercel.app/](https://2026drlhw1gridworldversal.vercel.app/)**  
+> **📝 開發紀錄與對話歷史：[DEVLOG.md](DEVLOG.md)** （供作業評分參考）
 
 <div align="center">
 
