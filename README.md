@@ -76,6 +76,25 @@
 
 ---
 
+## 🖱 使用流程（線上 demo 與本機都相同）
+
+1. **設定網格**：輸入 n（5~9），按 ⚡ Generate Grid
+2. **標記**：依序點選 🟢 起點、🔴 終點、⬛ 障礙物（最多 n−2 個）
+3. **執行**（兩顆按鈕互相獨立、可任意切換）：
+   - 🎲 **HW1-2：隨機策略 + 評估** → 後端 `POST /random_evaluate`，回傳 1~2 個隨機動作組成的 π(a|s) 與用 Bellman 期望方程式評估出的 V_π(s)。Policy Matrix 會顯示 1~2 個方向的箭頭，Value Matrix 通常收斂在 V ≈ −10 附近。
+   - ▶ **HW1-3：Value Iteration** → 後端 `POST /evaluate`，回傳每格的最佳動作與 V\*(s)，前端會用紫色高亮 BFS 追蹤出所有最佳路徑。
+4. 結果區的**標題**與**收斂統計列**會根據按下哪顆按鈕自動切換，避免兩種結果混淆。
+
+線上 demo 已驗證兩個端點皆 200：
+```bash
+$ curl -X POST https://2026drlhw1gridworldversal.vercel.app/random_evaluate \
+       -H "Content-Type: application/json" \
+       -d '{"n":5,"start":[0,0],"end":[4,4],"obstacles":[[2,2]]}'
+# → {"iterations":133, "mode":"random", "policy":{...1~2 random actions per cell...}, "values":{... ~ -10 ...}}
+```
+
+---
+
 ## 🚀 本機執行
 
 ```bash
@@ -85,6 +104,6 @@ pip install -r requirements.txt
 # 啟動 Flask 應用伺服器
 python app.py
 
-# 取出瀏覽器開啟
+# 開啟瀏覽器
 open http://127.0.0.1:5000
 ```
