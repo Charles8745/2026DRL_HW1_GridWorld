@@ -1,4 +1,5 @@
-# 🗺 GridWorld (Value Iteration) — Deep Reinforcement Learning HW1
+# 🗺 GridWorld — Deep Reinforcement Learning HW1
+**(隨機策略 + 策略評估 + Value Iteration)**
 
 > **🚀 Live Demo (線上展示)：[https://2026drlhw1gridworldversal.vercel.app/](https://2026drlhw1gridworldversal.vercel.app/)**  
 > **📝 AI 對話紀錄與開發歷程：[AI_CONVERSATION.md](AI_CONVERSATION.md)** （供老師檢閱與評分參考）
@@ -9,7 +10,7 @@
 [![Python](https://img.shields.io/badge/Python-3.11-3776AB?style=for-the-badge&logo=python)](https://python.org)
 [![Flask](https://img.shields.io/badge/Flask-2.x-000000?style=for-the-badge&logo=flask)](https://flask.palletsprojects.com)
 
-**互動式 GridWorld 網格地圖 · Value Iteration 最佳解搜尋 · 價值函數視覺化**
+**互動式 GridWorld · 隨機策略 + 策略評估 (HW1-2) · Value Iteration 最佳解 (HW1-3) · 價值函數視覺化**
 
 </div>
 
@@ -17,13 +18,13 @@
 
 ## 🎯 專案說明
 
-本專案實作《Deep Reinforcement Learning》課程 HW1，並進階升級至 **Value Iteration** 以求得最佳策略：
+本專案實作《Deep Reinforcement Learning》課程 HW1，**三個小題分別對應網頁上兩顆獨立的按鈕**，可分別執行、互不取代：
 
-| 核心模組 | 內容 |
-|-------|------|
-| **HW1-1** | 網頁互動式 n×n GridWorld 建立（自由設定大小、起點、終點、障礙物） |
-| **HW1-2** | 策略顯示與價值評估（Policy Evaluation 機制與視覺化） |
-| **HW1-3** | 使用 Value Iteration 推導與顯示全域最佳策略 $\pi^*(s)$ 與 $V^*(s)$ |
+| 核心模組 | 內容 | 對應按鈕 |
+|-------|------|------|
+| **HW1-1** | 網頁互動式 n×n GridWorld 建立（自由設定大小、起點、終點、障礙物） | ⚡ Generate Grid |
+| **HW1-2** | **隨機策略生成 + 策略評估 (Bellman 期望方程式)**，顯示 π(a\|s) 與 V_π(s) | 🎲 HW1-2：隨機策略 + 評估 |
+| **HW1-3** | Value Iteration (Bellman 最佳方程式) 推導全域最佳策略 $\pi^*(s)$ 與 $V^*(s)$ | ▶ HW1-3：Value Iteration |
 
 *(若欲查看本專案從 Policy Evaluation 到 Value Iteration 的**完整 AI 輔助對話紀錄與問題發現過程**，請參閱 [`AI_CONVERSATION.md`](AI_CONVERSATION.md))*
 

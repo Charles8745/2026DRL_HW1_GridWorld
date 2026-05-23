@@ -33,7 +33,7 @@ def evaluate():
     end_state   = tuple(data['end'])
     obstacle_set = set(tuple(o) for o in data.get('obstacles', []))
 
-    # Phase 2: Run Value Iteration
+    # HW1-3: Bellman optimality (max over actions)
     V, policy, iterations = value_iteration(n, obstacle_set, end_state)
 
     # Format output for the frontend

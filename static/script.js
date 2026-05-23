@@ -30,11 +30,6 @@ const alertBox = document.getElementById('alert-box');
 const hintText = document.getElementById('hint-text');
 const resultsTitle = document.getElementById('results-title');
 
-// Tracks which mode produced the currently shown matrices.
-// 'random' = HW1-2 random policy + policy evaluation
-// 'optimal' = HW1-3 value iteration
-let lastMode = null;
-
 // ---------- Generate Grid ----------
 btnGenerate.addEventListener('click', () => {
   const val = parseInt(inputN.value, 10);
@@ -238,7 +233,6 @@ async function runEvaluation({ endpoint, mode, button, originalLabel }) {
 
     if (!resp.ok) throw new Error(`Server error: ${resp.status}`);
     const data = await resp.json();
-    lastMode = mode;
     renderResults(data.policy, data.values, data.iterations, mode);
   } catch (err) {
     showAlert('計算失敗：' + err.message, 'error');
