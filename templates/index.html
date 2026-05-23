@@ -95,7 +95,14 @@
 
       <!-- Evaluate Row -->
       <div class="eval-row">
-        <button id="btn-evaluate" class="btn btn-eval" disabled>▶ Run Value Iteration</button>
+        <button id="btn-random" class="btn btn-eval" disabled
+                title="HW1-2：每格隨機指派 1~2 個動作後做 Bellman 期望方程式評估">
+          🎲 HW1-2：隨機策略 + 評估
+        </button>
+        <button id="btn-evaluate" class="btn btn-eval" disabled
+                title="HW1-3：以 Value Iteration 求最佳策略 π*(s) 與 V*(s)">
+          ▶ HW1-3：Value Iteration
+        </button>
         <button id="btn-reset" class="btn btn-outline">↺ 重置</button>
         <span id="hint-text" class="hint-text">需先設定起點和終點</span>
       </div>
@@ -105,7 +112,7 @@
     <div class="card card-results" id="results-section">
       <div class="section-title">
         <span class="step-num">3</span>
-        Value Iteration 結果
+        <span id="results-title">執行結果</span>
       </div>
 
       <!-- Convergence Stats -->
@@ -162,9 +169,14 @@
       </div>
 
       <!-- Re-evaluate -->
-      <div style="text-align:center; margin-top:20px;">
-        <button id="btn-reeval" class="btn btn-reeval" onclick="document.getElementById('btn-evaluate').click()">
-          🔄 重新計算
+      <div style="text-align:center; margin-top:20px; display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
+        <button id="btn-reeval-random" class="btn btn-reeval"
+                onclick="document.getElementById('btn-random').click()">
+          🎲 重新隨機 (HW1-2)
+        </button>
+        <button id="btn-reeval" class="btn btn-reeval"
+                onclick="document.getElementById('btn-evaluate').click()">
+          🔄 重跑 Value Iteration (HW1-3)
         </button>
       </div>
     </div>
@@ -173,7 +185,7 @@
 
   </div>
 
-  <script src="{{ url_for('static', filename='script.js') }}?v=8"></script>
+  <script src="{{ url_for('static', filename='script.js') }}?v=9"></script>
 </body>
 
 </html>

@@ -24,9 +24,16 @@ const statusStart = document.getElementById('status-start');
 const statusEnd = document.getElementById('status-end');
 const statusObs = document.getElementById('status-obs');
 const btnEval = document.getElementById('btn-evaluate');
+const btnRandom = document.getElementById('btn-random');
 const btnReset = document.getElementById('btn-reset');
 const alertBox = document.getElementById('alert-box');
 const hintText = document.getElementById('hint-text');
+const resultsTitle = document.getElementById('results-title');
+
+// Tracks which mode produced the currently shown matrices.
+// 'random' = HW1-2 random policy + policy evaluation
+// 'optimal' = HW1-3 value iteration
+let lastMode = null;
 
 // ---------- Generate Grid ----------
 btnGenerate.addEventListener('click', () => {
@@ -176,6 +183,7 @@ function updateStatus() {
 
   const canEval = startCell && endCell;
   btnEval.disabled = !canEval;
+  if (btnRandom) btnRandom.disabled = !canEval;
   if (hintText) hintText.style.display = canEval ? 'none' : 'inline';
 }
 
@@ -202,20 +210,22 @@ function hideAlert() {
   alertBox.style.display = 'none';
 }
 
-// ---------- Evaluate ----------
-btnEval.addEventListener('click', async () => {
+// ---------- Evaluate (shared runner) ----------
+async function runEvaluation({ endpoint, mode, button, originalLabel }) {
   if (!startCell || !endCell) {
     showAlert('請先設定起點和終點！', 'error');
     return;
   }
 
+  // Disable both action buttons while a request is in flight
   btnEval.disabled = true;
-  btnEval.textContent = '⏳ 計算中...';
+  btnRandom.disabled = true;
+  button.textContent = '⏳ 計算中...';
 
   const obstacleList = [...obstacles].map(k => k.split(',').map(Number));
 
   try {
-    const resp = await fetch('/evaluate', {
+    const resp = await fetch(endpoint, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -228,21 +238,39 @@ btnEval.addEventListener('click', async () => {
 
     if (!resp.ok) throw new Error(`Server error: ${resp.status}`);
     const data = await resp.json();
-    renderResults(data.policy, data.values, data.iterations);
+    lastMode = mode;
+    renderResults(data.policy, data.values, data.iterations, mode);
   } catch (err) {
     showAlert('計算失敗：' + err.message, 'error');
   } finally {
     btnEval.disabled = false;
-    btnEval.textContent = '🔍 Evaluate Policy';
+    btnRandom.disabled = false;
+    button.textContent = originalLabel;
   }
-});
+}
+
+btnEval.addEventListener('click', () => runEvaluation({
+  endpoint: '/evaluate',
+  mode: 'optimal',
+  button: btnEval,
+  originalLabel: '▶ HW1-3：Value Iteration',
+}));
+
+btnRandom.addEventListener('click', () => runEvaluation({
+  endpoint: '/random_evaluate',
+  mode: 'random',
+  button: btnRandom,
+  originalLabel: '🎲 HW1-2：隨機策略 + 評估',
+}));
 
 // ---------- Render Results ----------
-function renderResults(policy, values, iterations) {
+function renderResults(policy, values, iterations, mode = 'optimal') {
 
   // --- Trace ALL Optimal Paths (BFS) ---
+  // Only meaningful for HW1-3 (deterministic optimal policy). For HW1-2's
+  // random policy, "optimal path" is undefined, so we skip the highlight.
   const optimalPath = new Set();
-  if (startCell && endCell) {
+  if (mode === 'optimal' && startCell && endCell) {
     const queue = [`${startCell.row},${startCell.col}`];
     // prevent infinite loop
     let count = 0;
@@ -422,12 +450,22 @@ function renderResults(policy, values, iterations) {
   valueContainer.appendChild(buildMatrix('value'));
   policyContainer.appendChild(buildMatrix('policy'));
 
+  // Update title to reflect which algorithm produced these matrices
+  if (resultsTitle) {
+    resultsTitle.textContent = mode === 'random'
+      ? 'HW1-2：隨機策略 + 策略評估結果'
+      : 'HW1-3：Value Iteration 結果';
+  }
+
   // Show convergence stats
   const statsEl = document.getElementById('convergence-stats');
   if (statsEl) {
+    const algoLabel = mode === 'random'
+      ? '策略評估 (Bellman expectation)'
+      : 'Value Iteration (Bellman optimality)';
     statsEl.innerHTML =
-      `✅ 收斂完成 &nbsp;|&nbsp; 迭代次數：<strong>${iterations}</strong> sweeps &nbsp;|&nbsp;` +
-      ` γ = 0.9 &nbsp;|&nbsp; θ = 1×10⁻⁶ &nbsp;|&nbsp; R = −1`;
+      `✅ ${algoLabel} 收斂完成 &nbsp;|&nbsp; 迭代次數：<strong>${iterations}</strong> sweeps` +
+      ` &nbsp;|&nbsp; γ = 0.9 &nbsp;|&nbsp; θ = 1×10⁻⁶ &nbsp;|&nbsp; R = −1`;
     statsEl.style.display = 'block';
   }
 

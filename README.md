@@ -45,11 +45,14 @@
 
 ![HW1-2 策略顯示與價值評估](docs/screenshots/03_results.png)
 
+點擊「🎲 HW1-2：隨機策略 + 評估」會先**隨機生成一組策略 π(a|s)**，再用**策略評估 (Policy Evaluation)** 算出該策略下的價值函數 V_π(s)，並把結果同時呈現在 Policy Matrix 與 Value Matrix。注意此處的結果**不是最佳策略**，僅是「在這個隨機策略下，每個狀態的期望回報」；最佳策略由 HW1-3 的 Value Iteration 推導。
+
 | 評分項目 | 實作細節 |
 |------|------|
-| **隨機策略生成** | 在尚未進行 Value Iteration 前，提供目標導向的隨機行動作為初始策略 |
-| **策略評估正確性** | 完全遵守 Bellman 方程式 $V(s) = \sum_a \pi(a|s)[R + \gamma V(s')]$ 進行價值估算 |
-| **動態矩陣視覺化** | Value Matrix 支援動態漸層色階（高/中/低）；Policy Matrix 支援 3×3 羅盤圖示 |
+| **隨機策略生成 (20%)** | 對每個**非終點、非障礙物**的格子，從 {↑, ↓, ←, →} 中**隨機抽取 1~2 個動作**作為該狀態的合法行動集合，並以均勻機率 π(a\|s) = 1/k 分配（k = 1 或 2）。此設計符合作業圖示：部分格子顯示單一箭頭、部分格子顯示兩個方向的組合（例如 ↓→ 形成「⌐」狀），代表該狀態在隨機策略下有多個等機率動作。實作位置：[`gridworld.py` → `random_policy()`](gridworld.py)。 |
+| **策略評估正確性 (15%)** | 嚴格遵守 **Bellman 期望方程式**（注意：使用期望值 Σ，**不是** max）逐次更新所有狀態：<br>$$V_\pi(s) \leftarrow \sum_{a} \pi(a\mid s)\bigl[\,R + \gamma\, V_\pi(s')\,\bigr]$$<br>採 in-place 同步迭代 (synchronous sweep)，當 max\|ΔV\| < θ = 1×10⁻⁶ 時視為收斂。對 5×5 範例約 130+ sweeps 收斂；V 值最終接近 −1/(1−γ) = −10，反映隨機策略下 Agent 平均需要很多步才能（或無法）抵達終點。實作位置：[`gridworld.py` → `policy_evaluation()`](gridworld.py)。 |
+| **程式碼結構與可讀性 (5%)** | **核心邏輯與 Web 層完全分離**：`gridworld.py` 只負責純演算法（random_policy / policy_evaluation / value_iteration 三個獨立函式，皆可單獨測試），`app.py` 僅做 JSON I/O；HW1-2 與 HW1-3 各自對應 `/random_evaluate` 與 `/evaluate` 兩個端點，前端用同一個 `runEvaluation()` runner 驅動，避免重複碼。所有常數（γ、θ、R）與動作定義 (`ACTION_DELTAS`, `ALL_ACTIONS`) 集中於模組頂端，方便修改。 |
+| **視覺化與 UX** | 結果區的標題、收斂統計列會根據目前模式自動切換（「策略評估 / Value Iteration」），讓老師一眼能分辨眼前是哪個小題的結果；Policy Matrix 採 3×3 羅盤圖示，可同時呈現多個動作箭頭；Value Matrix 用三段漸層色階（高/中/低）呈現 V_π(s) 的分布。 |
 
 ### HW1-3 使用價值迭代算法推導最佳政策
 
